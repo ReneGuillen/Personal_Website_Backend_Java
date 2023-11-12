@@ -19,6 +19,7 @@ dependencies {
     // SDK Dependencies
     implementation(platform("software.amazon.awssdk:bom:2.21.1"))
     implementation("software.amazon.awssdk:dynamodb")
+    implementation("com.amazonaws:aws-java-sdk-dynamodb:1.11.163")
     implementation("com.amazonaws:aws-lambda-java-core:1.2.1")
 
     // Dagger Dependencies
@@ -28,6 +29,9 @@ dependencies {
     // Log4j Dependencies
     implementation("org.apache.logging.log4j:log4j-api:2.4")
     implementation("org.apache.logging.log4j:log4j-core:2.4")
+
+    // Lombok Dependency
+    implementation("org.projectlombok:lombok:1.18.30")
 }
 
 tasks.test {

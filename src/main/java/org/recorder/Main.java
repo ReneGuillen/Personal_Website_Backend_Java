@@ -20,11 +20,15 @@ public class Main {
         try {
             // Create an HttpClient instance
             try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-                // Define the URL of the API you want to call
-                String apiUrl = "https://www.boredapi.com/api/activity";
+
+                final String SOCCER_API_URL = "https://v3.football.api-sports.io/leagues";
+                final String API_KEY = "fake-api-key";
+                final String API_HOST = "v3.football.api-sports.io";
 
                 // Create an HTTP GET request
-                HttpUriRequestBase request = new HttpGet(apiUrl);
+                HttpUriRequestBase request = new HttpGet(SOCCER_API_URL);
+                request.setHeader("x-rapidapi-key", API_KEY);
+                request.setHeader("x-rapidapi-host", API_HOST);
 
                 // Execute the request and get the response
                 CloseableHttpResponse response = httpClient.execute(request);
