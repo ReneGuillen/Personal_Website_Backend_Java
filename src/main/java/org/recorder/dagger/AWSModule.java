@@ -1,4 +1,4 @@
-package org.example.dagger;
+package org.recorder.dagger;
 
 import dagger.Provides;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;

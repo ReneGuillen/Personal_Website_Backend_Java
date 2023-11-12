@@ -1,4 +1,4 @@
-package org.example.dagger;
+package org.recorder.dagger;
 
 import dagger.Provides;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
