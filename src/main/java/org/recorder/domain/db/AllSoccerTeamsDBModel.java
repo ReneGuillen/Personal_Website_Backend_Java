@@ -1,4 +1,4 @@
-package org.recorder.domain;
+package org.recorder.domain.db;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
@@ -8,26 +8,26 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.Instant;
-
-// FAVORITE_TEAM_MATCHES
-// [ UniqueId | Date&Time | TeamName | TeamId | League | LeagueId | Against ]
+// ALL_SOCCER_TEAMS
+// [ UniqueID | isFavorite | TeamName | TeamID | League | LeagueId ]
+// Record ALL teams from supported league.
+// League: (LeagueOne, LaLiga, PremierLeague)
+// Cups: (ChampionsLeague)
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@DynamoDBTable(tableName = "Favorite-Team-Matches")
-public class FavoriteTeamMatchesDBModel {
+@DynamoDBTable(tableName="AllSoccerTeams")
+public class AllSoccerTeamsDBModel {
 
     @DynamoDBHashKey(attributeName = "uniqueId")
     private String uniqueId;
 
-    @DynamoDBRangeKey(attributeName = "matchDateAndTime")
-    private Instant matchDateAndTime;
+    @DynamoDBRangeKey(attributeName = "isFavorite")
+    private boolean isFavorite;
 
     private String teamName;
     private String teamId;
-    private String LeagueName;
+    private String leagueName;
     private String leagueId;
-    private String againstTeam;
 }
