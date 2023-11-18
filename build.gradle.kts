@@ -32,6 +32,10 @@ dependencies {
 
     // Lombok Dependency
     implementation("org.projectlombok:lombok:1.18.30")
+    annotationProcessor("org.projectlombok:lombok:1.18.30")
+
+    // Jackson Dependency
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.12.2")
 }
 
 tasks.test {

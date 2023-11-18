@@ -8,9 +8,13 @@ import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.core5.http.HttpStatus;
 import org.apache.hc.core5.http.ParseException;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.recorder.domain.soccer.Match;
+import org.recorder.domain.soccer.Team;
+import org.recorder.jackson.SoccerDeserializer;
 
 import javax.inject.Inject;
 import java.io.IOException;
+import java.util.List;
 
 @Slf4j
 public class SoccerDAO {
@@ -23,14 +27,17 @@ public class SoccerDAO {
     private static final String SEASON_YEAR = "2023";
 
     private final CloseableHttpClient httpClient;
+    private final SoccerDeserializer soccerDeserializer;
 
     @Inject
     public SoccerDAO(
-            final CloseableHttpClient httpClient) {
+            final CloseableHttpClient httpClient,
+            final SoccerDeserializer soccerDeserializer) {
         this.httpClient = httpClient;
+        this.soccerDeserializer = soccerDeserializer;
     }
 
-    public String getAllTeamsForLeagues(final String leagueId)
+    public List<Team> getAllTeamsForLeague(final String leagueId)
             throws IOException, ParseException {
 
         // Set up the GET request
@@ -42,20 +49,19 @@ public class SoccerDAO {
         // Make the call
         CloseableHttpResponse response = httpClient.execute(getRequest);
 
-        // TODO: Need to find a way to serialize the JSON respond into a POJO classes.
         // Check if the response status code is OK (200)
         if (response.getCode() == HttpStatus.SC_OK) {
             // Read and print the response content
             String responseBody = EntityUtils.toString(response.getEntity());
-            System.out.println("Response:\n" + responseBody);
-            return responseBody;
+            log.info("Response: {}", responseBody);
+            return soccerDeserializer.deserializeTeams(responseBody);
         } else {
             // Handle non-OK response
             throw new HttpResponseException(response.getCode(), response.getReasonPhrase());
         }
     }
 
-    public String getAllMatchesForTeam(final String teamId, final String leagueId)
+    public List<Match> getAllMatchesForTeam(final String teamId, final String leagueId)
             throws IOException, ParseException {
 
         // Set up the GET request
@@ -71,8 +77,8 @@ public class SoccerDAO {
         if (response.getCode() == HttpStatus.SC_OK) {
             // Read and print the response content
             String responseBody = EntityUtils.toString(response.getEntity());
-            System.out.println("Response:\n" + responseBody);
-            return responseBody;
+            log.info("Response: {}", responseBody);
+            return soccerDeserializer.deserializeMatches(responseBody);
         } else {
             // Handle non-OK response
             throw new HttpResponseException(response.getCode(), response.getReasonPhrase());

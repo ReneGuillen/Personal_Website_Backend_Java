@@ -1,5 +1,6 @@
 package org.recorder.dagger;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dagger.Module;
 import dagger.Provides;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
@@ -14,5 +15,11 @@ public class DependencyModule {
     @Singleton
     public CloseableHttpClient provideHttpClient() {
         return HttpClients.createDefault();
+    }
+
+    @Provides
+    @Singleton
+    public ObjectMapper provideObjectMapper() {
+        return new ObjectMapper();
     }
 }
