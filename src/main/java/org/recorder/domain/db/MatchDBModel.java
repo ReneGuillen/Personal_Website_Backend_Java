@@ -8,26 +8,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-// ALL_SOCCER_TEAMS
-// [ UniqueID | isFavorite | TeamName | TeamID | League | LeagueId ]
-// Record ALL teams from supported league.
-// League: (LeagueOne, LaLiga, PremierLeague)
-// Cups: (ChampionsLeague)
+import java.time.Instant;
+
+// FAVORITE_TEAM_MATCHES
+// [ UniqueId | Date&Time | TeamName | TeamId | League | LeagueId | Against ]
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@DynamoDBTable(tableName="AllSoccerTeams")
-public class AllSoccerTeamsDBModel {
+@DynamoDBTable(tableName = "Favorite-Team-Matches")
+public class MatchDBModel {
 
     @DynamoDBHashKey(attributeName = "uniqueId")
     private String uniqueId;
 
-    @DynamoDBRangeKey(attributeName = "isFavorite")
-    private boolean isFavorite;
+    @DynamoDBRangeKey(attributeName = "matchDateAndTime")
+    private Instant matchDateAndTime;
 
     private String teamName;
-    private String teamId;
-    private String leagueName;
-    private String leagueId;
+    private int teamId;
+    private String LeagueName;
+    private int leagueId;
+    private int againstTeamId;
+    private String againstTeamName;
 }
