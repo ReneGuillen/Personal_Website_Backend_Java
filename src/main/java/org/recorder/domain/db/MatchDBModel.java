@@ -3,10 +3,7 @@ package org.recorder.domain.db;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.Instant;
 
@@ -14,6 +11,9 @@ import java.time.Instant;
 // [ UniqueId | Date&Time | TeamName | TeamId | League | LeagueId | Against ]
 @Getter
 @Setter
+@Builder
+@ToString
+@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
 @DynamoDBTable(tableName = "Favorite-Team-Matches")
@@ -27,7 +27,7 @@ public class MatchDBModel {
 
     private String teamName;
     private int teamId;
-    private String LeagueName;
+    private String leagueName;
     private int leagueId;
     private int againstTeamId;
     private String againstTeamName;

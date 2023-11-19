@@ -12,6 +12,7 @@ public class TeamConverter {
                 .id(teamDBModel.getTeamId())
                 .name(teamDBModel.getTeamName())
                 .isFavorite(teamDBModel.isFavorite())
+                .leagueId(teamDBModel.getLeagueId())
                 .build();
     }
 
