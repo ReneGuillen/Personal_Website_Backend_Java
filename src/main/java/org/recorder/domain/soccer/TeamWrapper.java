@@ -3,13 +3,12 @@ package org.recorder.domain.soccer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode
+@Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TeamWrapper {
     /** Wraps the team object for deserialization matching. **/
-    private Team team;
+    Team team;
 }

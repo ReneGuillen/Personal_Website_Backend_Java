@@ -8,12 +8,13 @@ import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.recorder.domain.soccer.Match;
 import org.recorder.domain.soccer.Team;
 import org.recorder.jackson.SoccerDeserializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import java.time.LocalDate;
 import java.util.List;
 
-@Slf4j
 public class SoccerDAO {
     private static final String GET_ALL_SOCCER_TEAMS_FOR_LEAGUE_API_URL =
             "https://v3.football.api-sports.io/teams?league=%s&season=%s";
@@ -22,6 +23,8 @@ public class SoccerDAO {
     private static final String API_KEY = "fake-api-key";
     private static final String API_HOST = "v3.football.api-sports.io";
     private static final String SEASON_YEAR = "2023";
+    // Logger declaration
+    private static final Logger log = LoggerFactory.getLogger(SoccerDAO.class);
 
     private final CloseableHttpClient httpClient;
     private final SoccerDeserializer soccerDeserializer;

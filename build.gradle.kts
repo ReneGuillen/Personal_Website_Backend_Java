@@ -26,19 +26,20 @@ dependencies {
     implementation("com.google.dagger:dagger:2.48")
     annotationProcessor("com.google.dagger:dagger-compiler:2.48")
 
-    // Log4j Dependencies
-    implementation("org.apache.logging.log4j:log4j-api:2.4")
-    implementation("org.apache.logging.log4j:log4j-core:2.4")
+    implementation("ch.qos.logback:logback-classic:1.2.6")
 
     // Lombok Dependency
     implementation("org.projectlombok:lombok:1.18.30")
     annotationProcessor("org.projectlombok:lombok:1.18.30")
 
     // Jackson Dependency
-    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.12.2")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.12.5")
 }
 
-tasks.test {
-    useJUnitPlatform()
-    testLogging.showStandardStreams = true;
+tasks.register<Zip>("buildZip") {
+    dependsOn(tasks.named("jar"))
+    into("lib") {
+        from(tasks.named("jar"))
+        from(configurations.getByName("runtimeClasspath"))
+    }
 }

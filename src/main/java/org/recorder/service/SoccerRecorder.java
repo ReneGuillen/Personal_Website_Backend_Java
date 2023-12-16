@@ -1,6 +1,5 @@
 package org.recorder.service;
 
-import lombok.extern.slf4j.Slf4j;
 import org.recorder.dal.DynamoDAO;
 import org.recorder.dal.SoccerDAO;
 import org.recorder.domain.db.MatchDBModel;
@@ -8,16 +7,19 @@ import org.recorder.domain.db.TeamDBModel;
 import org.recorder.domain.soccer.Team;
 import org.recorder.util.MatchConverter;
 import org.recorder.util.TeamConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Slf4j
 public class SoccerRecorder {
-    // Currently only supporting [Premier_League | La_Liga | Ligue_One]
-    private final List<String> SUPPORTED_LEAGUE_IDS = List.of("39", "140", "61");
+    // Currently only supporting [Premier_League | La_Liga | Ligue_One | Champions league]
+    private final List<String> SUPPORTED_LEAGUE_IDS = List.of("39", "140", "61", "2");
+    // Logger declaration
+    private static final Logger log = LoggerFactory.getLogger(SoccerRecorder.class);
     private final SoccerDAO soccerDAO;
     private final DynamoDAO dynamoDAO;
 
@@ -43,7 +45,7 @@ public class SoccerRecorder {
                 this.getAllTeamsFromSupportedLeagues(
                         SUPPORTED_LEAGUE_IDS, teamsFromDB);
 
-        log.info("Storing all teams in DynamoDB.. ");
+        log.info("Storing all new teams in DynamoDB.. ");
         this.dynamoDAO.saveItems(teamsFromSoccerDao);
 
         log.info("Fetching all matches for favorite teams from Soccer API.. ");
@@ -59,15 +61,12 @@ public class SoccerRecorder {
         return leagueIds.stream()
                 .map(leagueId -> {
                     List<Team> teams = soccerDAO.getAllTeamsForLeague(leagueId);
-                    teams.forEach(team -> {
-                        final String name = team.getName();
-                        team.setLeagueId(leagueId);
-                        team.setFavorite(teamsFromDB.containsKey(name)
-                                && teamsFromDB.get(name).isFavorite());
-                    });
+                    teams.forEach(team -> team.setLeagueId(leagueId));
                     return teams;
                 })
                 .flatMap(List::stream)
+                .filter(team -> !teamsFromDB.containsKey(team.getName()) // Filter (team + league) that exist in DB already.
+                        || !teamsFromDB.get(team.getName()).getLeagueId().equals(team.getLeagueId()))
                 .map(TeamConverter::convertToDBModelTeam)
                 .toList();
     }

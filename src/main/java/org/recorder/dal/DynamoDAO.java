@@ -1,13 +1,11 @@
 package org.recorder.dal;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
-import lombok.extern.slf4j.Slf4j;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 
 import javax.inject.Inject;
 import java.util.List;
 
-@Slf4j
 public class DynamoDAO {
     private final DynamoDBMapper dynamoDBMapper;
 
@@ -21,8 +19,7 @@ public class DynamoDAO {
     }
 
     public <T> List<T> loadItems(final Class<T> clazz) {
-        DynamoDBQueryExpression<T> queryExpression =
-                new DynamoDBQueryExpression<T>();
-        return dynamoDBMapper.query(clazz, queryExpression);
+        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+        return dynamoDBMapper.scan(clazz, scanExpression);
     }
 }

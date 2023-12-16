@@ -3,14 +3,13 @@ package org.recorder.domain.soccer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode
+@Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Fixture {
-    private String timezone;
-    private String date;
-    private long timestamp;
+    String timezone;
+    String date;
+    long timestamp;
 }

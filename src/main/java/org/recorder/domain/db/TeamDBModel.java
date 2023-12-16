@@ -17,15 +17,13 @@ import lombok.*;
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
-@DynamoDBTable(tableName="AllSoccerTeams")
+@DynamoDBTable(tableName="All-Soccer-Teams")
 public class TeamDBModel {
 
     @DynamoDBHashKey(attributeName = "uniqueId")
     private String uniqueId;
 
-    @DynamoDBRangeKey(attributeName = "isFavorite")
     private boolean isFavorite;
-
     private String teamName;
     private int teamId;
     private String leagueId;

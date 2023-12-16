@@ -3,15 +3,14 @@ package org.recorder.domain.soccer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode
+@Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Team {
-    private int id;
-    private String name;
-    private boolean isFavorite;
-    private String leagueId;
+    int id;
+    String name;
+    boolean isFavorite;
+    String leagueId;
 }
